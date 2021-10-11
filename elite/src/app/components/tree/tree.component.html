@@ -26,6 +26,8 @@
       (contextMenuClick)="contextMenuClick($event)"
       (actionComplete)="actionComplete($event)"
       (rowSelected)="selectionChange($event)"
+      (collapsed)="refreshStyle(0); resetState(true)"
+      (expanded)="refreshStyle(0); resetState(true)"
       (rowDrop)="rowDrop($event)"
     >
       <e-columns>

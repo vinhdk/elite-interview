@@ -78,7 +78,7 @@ export class CreateRowComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
     this.close.emit();
     this.rowService.insert(this.form as IRow, this.isChild ? 'child' : 'next', this.rowService.selectedData as IRow);
-    this.columnService.toggle('reset');
+    this.columnService.toggle('rerender');
   }
 
   public detach(): void {

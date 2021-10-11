@@ -355,6 +355,7 @@ export class TreeComponent implements OnInit, OnDestroy {
   }
 
   public actionComplete(event: any): void {
+    console.log(event);
     switch (event.requestType) {
       case 'reorder':
         this.columnDrop(event);
@@ -403,29 +404,33 @@ export class TreeComponent implements OnInit, OnDestroy {
       this.treegrid.refreshColumns(true);
       this.treegrid.refreshHeader();
       this.treegrid.grid.refreshHeader();
-      const timeout = setTimeout(() => {
-        const columns = [...this.columnService.columns];
-        columns.forEach((e: any) => {
-          const tds = Array.from(this.treegrid.element.querySelectorAll('td'))
-            .filter((item) => item.getAttribute('c-field') && (item.getAttribute('c-field') as string) === e.field);
-          tds.forEach((td) => {
-            this.renderer.setStyle(td, 'color', e.style?.fontColor || '');
-            this.renderer.setStyle(td, 'backgroundColor', e.style?.backgroundColor || '');
-            this.renderer.setStyle(td, 'fontSize', e.style?.fontSize || '');
-            this.renderer.setStyle(td, 'wordWrap', e.style?.wordWrap || '');
-          });
-          clearTimeout(timeout);
-        })
-      }, 500);
+      this.refreshStyle(500);
     }
+  }
+
+  public refreshStyle(debounce: number): void {
+    const timeout = setTimeout(() => {
+      const columns = [...this.columnService.columns];
+      columns.forEach((e: any) => {
+        const tds = Array.from(this.treegrid.element.querySelectorAll('td'))
+          .filter((item) => item.getAttribute('c-field') && (item.getAttribute('c-field') as string) === e.field);
+        tds.forEach((td) => {
+          this.renderer.setStyle(td, 'color', e.style?.fontColor || '');
+          this.renderer.setStyle(td, 'backgroundColor', e.style?.backgroundColor || '');
+          this.renderer.setStyle(td, 'fontSize', e.style?.fontSize || '');
+          this.renderer.setStyle(td, 'wordWrap', e.style?.wordWrap || '');
+        });
+        clearTimeout(timeout);
+      })
+    }, debounce);
   }
 
   public copy(): void {
     this.state = 'copy';
     this.selectedRowElements.forEach((row) => {
       Array.from(row.children).forEach((e: Element) => {
-        this.renderer.setStyle(e, 'backgroundColor', 'pink');
-        this.renderer.setStyle(e, 'color', 'white');
+        (e as HTMLElement).style.backgroundColor = 'pink';
+        (e as HTMLElement).style.color = 'white';
       })
     });
   }
@@ -434,8 +439,8 @@ export class TreeComponent implements OnInit, OnDestroy {
     this.state = 'cut';
     this.selectedRowElements.forEach((row) => {
       Array.from(row.children).forEach((e: Element) => {
-        this.renderer.setStyle(e, 'backgroundColor', 'pink');
-        this.renderer.setStyle(e, 'color', 'white');
+        (e as HTMLElement).style.backgroundColor = 'pink';
+        (e as HTMLElement).style.color = 'white';
       })
     });
   }
@@ -454,13 +459,15 @@ export class TreeComponent implements OnInit, OnDestroy {
     this.resetState();
   }
 
-  public resetState(): void {
+  public resetState(unRefreshLayout?: boolean): void {
     this.selectedRows = [];
     this.selectedRowElements = [];
     this.tempSelectedRows = [];
     this.tempSelectedRowElements = [];
     this.state = 'nothing';
-    this.refreshTreeLayout();
+    if (!unRefreshLayout) {
+      this.refreshTreeLayout();
+    }
   }
 
   public rerender(): void {
@@ -503,8 +510,8 @@ export class TreeComponent implements OnInit, OnDestroy {
 
   public selectionChange(event: any): void {
     if (this.state === 'nothing') {
-      this.selectedRows = event.data;
-      this.selectedRowElements = event.row;
+      this.selectedRows = event.data.length == null ? [event.data] : event.data;
+      this.selectedRowElements = event.row.length == null ? [event.row] : event.row;
     } else {
       this.tempSelectedRows = event.data.length == null ? [event.data] : event.data;
       this.tempSelectedRowElements = event.row.length == null ? [event.row] : event.row;

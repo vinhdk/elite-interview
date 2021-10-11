@@ -37,7 +37,7 @@ export class DeleteRowComponent {
       this.cdr.detectChanges();
       this.close.emit();
       this.rowService.remove(data.uid);
-      this.columnService.toggle('reset');
+      this.columnService.toggle('rerender');
     }
   }
 }

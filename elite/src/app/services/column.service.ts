@@ -177,6 +177,7 @@ export class ColumnService {
     } else {
       columns.splice(targetPos + 1, 0, column);
     }
+    this.map.set(column.field as string, column.style);
     this._eventType$.next('reset');
     this._columns$.next(columns.map((e, i) => ({
       ...e,
@@ -239,7 +240,7 @@ export class ColumnService {
   }
 
   public allowFilter(field: string, value: boolean): void {
-    this._eventType$.next('filter');
+    this._eventType$.next('reset');
     const columns = [...this.columns];
     const pos = columns.findIndex((e) => e.field === field);
     columns[pos].allowFiltering = value;

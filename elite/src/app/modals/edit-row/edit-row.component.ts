@@ -72,7 +72,7 @@ export class EditRowComponent implements OnInit, OnDestroy {
       uid: this.rowService.selected,
       ...this.form
     } as IRow);
-    this.columnService.toggle('reset');
+    this.columnService.toggle('rerender');
   }
 
   public detach(): void {
