@@ -1,0 +1,11 @@
+.wrapper--edit--header {
+  &--actions {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+ejs-dialog {
+  max-height: fit-content !important;
+}

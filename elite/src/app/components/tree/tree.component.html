@@ -1,0 +1,71 @@
+<div class="wrapper--tree">
+  <ng-container *ngIf="data$ | async as value">
+    <ejs-treegrid
+      #grid
+      *ngIf="show"
+      width="100vw"
+      childMapping="child"
+      [allowPaging]="true"
+      [allowFiltering]="true"
+      [allowSorting]="true"
+      [allowMultiSorting]="true"
+      [allowResizing]="true"
+      [allowReordering]="true"
+      [allowRowDragAndDrop]='true'
+      [showColumnChooser]="true"
+      [selectionSettings]="selectionSettings"
+      [pageSettings]="pageSettings"
+      [sortSettings]="sortSettings"
+      [filterSettings]="filterSettings"
+      [dataSource]="value.rows"
+      [columns]="value.columns"
+      [toolbar]="toolbar"
+      [treeColumnIndex]="1"
+      [contextMenuItems]="contextMenuItems"
+      (contextMenuOpen)="contextMenuOpen($event)"
+      (contextMenuClick)="contextMenuClick($event)"
+      (actionComplete)="actionComplete($event)"
+      (rowSelected)="selectionChange($event)"
+      (rowDrop)="rowDrop($event)"
+    >
+      <e-columns>
+        <ng-container *ngFor="let column of value.columns">
+          <e-column
+            [columnName]="column.field"
+            [index]="column.index"
+            [field]="column.field"
+            [textAlign]="column.textAlign"
+            [headerTextAlign]="column.headerTextAlign"
+            [type]="column.type"
+            [editType]="column.editType"
+            [minWidth]="column.minWidth"
+            [maxWidth]="column.maxWidth"
+            [width]="column.width"
+            [headerText]="column.headerText"
+            [defaultValue]="column.defaultValue"
+            [allowFiltering]="column.allowFiltering"
+            [allowSorting]="column.allowSorting"
+            [visible]="column.visible"
+            [isFrozen]="column.isFrozen"
+            [filter]="column.filter"
+            [customAttributes]="{'c-field': column.field}"
+          >
+          </e-column>
+        </ng-container>
+      </e-columns>
+    </ejs-treegrid>
+  </ng-container>
+</div>
+<app-create-header [visible]="modals.createHeader.visible"
+                   (close)="modals.createHeader.visible = false"></app-create-header>
+<app-edit-header [visible]="modals.editHeader.visible" (close)="modals.editHeader.visible = false"></app-edit-header>
+<app-delete-header [visible]="modals.deleteHeader.visible"
+                   (close)="modals.deleteHeader.visible = false"></app-delete-header>
+<app-style-header [visible]="modals.styleHeader.visible"
+                  (close)="modals.styleHeader.visible = false"></app-style-header>
+<app-delete-row [visible]="modals.deleteRow.visible"
+                (close)="modals.deleteRow.visible = false"></app-delete-row>
+<app-create-row [visible]="modals.createRow.visible"
+                [isChild]="!!modals.createRow.isChild"
+                (close)="modals.createRow.visible = false"></app-create-row>
+<app-edit-row [visible]="modals.editRow.visible" (close)="modals.editRow.visible = false"></app-edit-row>

@@ -1,0 +1,12 @@
+<ejs-dialog [isModal]="true" [visible]="visible"  width='350px'  (close)="close.emit()">
+  <ng-template #content>
+    <div class="wrapper--delete--row">
+      <h3>Delete this row?</h3>
+      <div class="wrapper--delete--row--actions">
+        <button class="e-danger" (click)="submit()" ejs-button>Delete</button>
+        <button (click)="close.emit()" ejs-button>Cancel</button>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+

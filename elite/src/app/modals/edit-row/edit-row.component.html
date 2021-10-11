@@ -1,0 +1,20 @@
+<ejs-dialog [isModal]="true" [visible]="visible" width='350px' (close)="close.emit()">
+  <ng-template #content>
+    <div class="wrapper--create--row">
+      <h3>Edit row</h3>
+      <ng-container *ngFor="let column of columns">
+        <input
+          class="e-input"
+          [type]="(column.type || 'text').toLowerCase()"
+          [(ngModel)]="form[column.field || '']"
+          [placeholder]="column.headerText || ''"
+        />
+      </ng-container>
+      <div class="wrapper--create--row--actions">
+        <button class="e-info" (click)="submit()" ejs-button>Update</button>
+        <button (click)="close.emit()" ejs-button>Cancel</button>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+

@@ -1,0 +1,35 @@
+<ejs-dialog [isModal]="true" [visible]="visible"  width='350px'  (close)="close.emit()">
+  <ng-template #content>
+    <div class="wrapper--style--header">
+      <h3>Style Header</h3>
+      <input class="e-input wrapper--style--header--min" [(ngModel)]="form.minWidth" placeholder="Min Width" type="number" />
+      <input class="e-input wrapper--style--header--max" [(ngModel)]="form.maxWidth" placeholder="Max Width" type="number" />
+      <ejs-dropdownlist [dataSource]="editTypes" [(value)]="form.editType" placeholder="Edit Type" (select)="form.defaultValue = ''" ></ejs-dropdownlist>
+      <ejs-dropdownlist [dataSource]="alignments" [(value)]="form.textAlign" placeholder="Text Align" ></ejs-dropdownlist>
+      <ejs-dropdownlist [dataSource]="alignments" [(value)]="form.headerTextAlign" placeholder="Header Text Align" ></ejs-dropdownlist>
+      <ng-container [ngSwitch]="form.editType">
+        <ng-container *ngSwitchCase="'Number'">
+          <input class="e-input" placeholder="Default Value" type="number" [(ngModel)]="form.defaultValue" />
+        </ng-container>
+        <ng-container *ngSwitchCase="'Date'">
+          <input class="e-input" placeholder="Default Value" type="date" [(ngModel)]="form.defaultValue" />
+        </ng-container>
+        <ng-container *ngSwitchCase="'Boolean'">
+          <ejs-dropdownlist [dataSource]="[true, false]" placeholder="Default Value" [(value)]="form.defaultValue" ></ejs-dropdownlist>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <input class="e-input" placeholder="Default Value" [(ngModel)]="form.defaultValue" />
+        </ng-container>
+      </ng-container>
+      <input class="e-input wrapper--style--header--background-color" [(ngModel)]="form.style.backgroundColor" placeholder="Background Color" />
+      <input class="e-input wrapper--style--header--font-size" [(ngModel)]="form.style.fontSize" placeholder="Font Size" />
+      <input class="e-input wrapper--style--header--font-color" [(ngModel)]="form.style.fontColor" placeholder="Font Color" />
+      <input class="e-input wrapper--style--header--word-wrap" [(ngModel)]="form.style.wordWrap" placeholder="Word Wrap" />
+      <div class="wrapper--style--header--actions">
+        <button class="e-info" (click)="submit()" ejs-button>Style</button>
+        <button (click)="close.emit()" ejs-button>Cancel</button>
+      </div>
+    </div>
+  </ng-template>
+</ejs-dialog>
+
